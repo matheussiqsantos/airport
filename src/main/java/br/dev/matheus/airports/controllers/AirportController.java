@@ -1,5 +1,6 @@
 package br.dev.matheus.airports.controllers;
 
+import br.dev.matheus.airports.DTO.AirportMinDTO;
 import br.dev.matheus.airports.entities.Airport;
 import br.dev.matheus.airports.service.AirportService;
 import java.util.List;
@@ -32,6 +33,19 @@ public class AirportController
     @GetMapping("/city/{cityName}")
     public ResponseEntity<List<Airport>> findByCityIgnoreCase(@PathVariable String cityName) {
         List<Airport> result = airportService.findByCity(cityName);
+        
+        if (result.isEmpty()) {
+            return ResponseEntity.notFound().build();
+            
+        } else {
+            return ResponseEntity.ok(result);
+        }
+        
+    }
+    
+    @GetMapping("/country/{countryName}")
+    public ResponseEntity<List<AirportMinDTO>> findByCountryIgnoreCase(@PathVariable String countryName) {
+        List<AirportMinDTO> result = airportService.findByCountry(countryName);
         
         if (result.isEmpty()) {
             return ResponseEntity.notFound().build();
